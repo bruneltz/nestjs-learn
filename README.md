@@ -3,6 +3,7 @@
 # **Opinionated**
 # MVC
 # Decorators are TypeScript annotations (starting with @)
+# Providers are the same as Components in the Spring Framework
 
 ## Setup
 
