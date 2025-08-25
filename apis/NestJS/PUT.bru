@@ -1,0 +1,17 @@
+meta {
+  name: PUT
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:3000/users/test
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "bruno"
+  }
+}
