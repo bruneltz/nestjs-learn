@@ -1,21 +1,23 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, ParseIntPipe, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, ParseIntPipe, ValidationPipe, Ip } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
-import { skip } from 'node:test';
+import { MyLoggerService } from 'src/my-logger/my-logger.service';
 
 @Controller('users')
 @SkipThrottle()
 export class UsersController {
 
     constructor(private readonly usersService: UsersService) {}
+    private readonly logger = new MyLoggerService(UsersController.name);
 
     //The order of endpoints matters. More specific routes should be defined before less specific ones.
 
     @SkipThrottle({ default: false })
     @Get() // GET /users
-    findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+    findAll(@Ip() ip: string, @Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+        this.logger.log('Fetching all users', UsersController.name);
         return this.usersService.findAll(role);
     }
 
