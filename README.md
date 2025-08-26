@@ -2,8 +2,9 @@
 
 # **Opinionated**
 # MVC
-# Decorators are TypeScript annotations (starting with @)
-# Providers are the same as Components in the Spring Framework
+# **Decorators** are TypeScript annotations (starting with @)
+# **Providers** are the same as Components in the Spring Framework
+# **Pipes** are a type of middleware, using as transformers or validators
 
 ## Setup
 
