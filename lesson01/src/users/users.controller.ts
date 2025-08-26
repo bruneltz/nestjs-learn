@@ -2,19 +2,24 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, ParseIntPipe,
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
+import { skip } from 'node:test';
 
 @Controller('users')
+@SkipThrottle()
 export class UsersController {
 
     constructor(private readonly usersService: UsersService) {}
 
     //The order of endpoints matters. More specific routes should be defined before less specific ones.
 
+    @SkipThrottle({ default: false })
     @Get() // GET /users
     findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
         return this.usersService.findAll(role);
     }
 
+    @Throttle({short: {ttl: 1000, limit: 1}}) // Limit to 1 request per second
     @Get(':id') // GET /users/1
     findOne(@Param('id', ParseIntPipe) id: number ) {
         return this.usersService.findOne(id);// Unary plus operator converts string to number
